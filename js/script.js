@@ -1,15 +1,16 @@
+// objeto de configuración del projecto
 var config = {
     type: Phaser.AUTO,
-    width: 800,
+    width: 800, // ancho y alto de la ventana del juago
     height: 600,
-    physics: {
+    physics: { // especificaciones del motor de físicas
         default: 'arcade',
         arcade: {
             gravity: { y: 300 },
             debug: false
         }
     },
-    scene: {
+    scene: { // los atributos de la escena indican que funciones se ejecutaran en cada etapa del juego
         preload: preload,
         create: create,
         update: update
@@ -25,10 +26,13 @@ var score = 0;
 var gameOver = false;
 var scoreText;
 
+// instanciar nuevo objeto de juego pasando el objeto de configuración
 var game = new Phaser.Game(config);
 
+// función que se ejecuta durante la etapa de precargado
 function preload ()
 {
+    // carga imagenes de los assets
     this.load.image('sky', 'assets/sky.png');
     this.load.image('ground', 'assets/platform.png');
     this.load.image('star', 'assets/star.png');
@@ -36,6 +40,8 @@ function preload ()
     this.load.spritesheet('dude', 'assets/dude.png', { frameWidth: 32, frameHeight: 48 });
 }
 
+// función que se ejecuta durante la etapa de creado
+// aquí se agregan los assets a la escena
 function create ()
 {
     //  A simple background for our game
@@ -114,13 +120,16 @@ function create ()
     this.physics.add.collider(player, bombs, hitBomb, null, this);
 }
 
+// update, se ejecuta constantemente 
 function update ()
 {
+    // Si ha terminado el juego, sale
     if (gameOver)
     {
         return;
     }
 
+    // Detecta si alguna de las teclas están presionadas y ejecuta la acción correcpondiente
     if (cursors.left.isDown)
     {
         player.setVelocityX(-160);
@@ -146,6 +155,7 @@ function update ()
     }
 }
 
+// función con la lógica de recolectar estrella
 function collectStar (player, star)
 {
     star.disableBody(true, true);
@@ -174,6 +184,7 @@ function collectStar (player, star)
     }
 }
 
+// función con la lógica de colisionar con una bomba
 function hitBomb (player, bomb)
 {
     this.physics.pause();
